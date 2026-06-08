@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Farah Younes — AI Engineering Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --syne: 'Syne', sans-serif;
+    --mono: 'DM Mono', monospace;
+    --teal-50:  #E1F5EE;
+    --teal-400: #1D9E75;
+    --teal-600: #0F6E56;
+    --teal-800: #085041;
+    --gray-50:  #F1EFE8;
+    --gray-200: #B4B2A9;
+    --gray-600: #5F5E5A;
+    --bg:       #f7f6f2;
+    --surface:  #ffffff;
+    --text:     #1a1a18;
+    --text-muted: #5a5955;
+    --border:   rgba(0,0,0,0.10);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:       #18181a;
+      --surface:  #222224;
+      --text:     #f0efe9;
+      --text-muted: #9a9994;
+      --border:   rgba(255,255,255,0.10);
+      --gray-50:  #2a2a2c;
+      --teal-50:  #0d2a20;
+      --teal-800: #9fe1cb;
+      --gray-600: #aaa9a3;
+    }
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--syne);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 52px;
+  }
+  .nav-brand {
+    font-size: 14px; font-weight: 800; letter-spacing: -0.5px;
+    color: var(--text); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 1.5rem; }
+  .nav-links a {
+    font-family: var(--mono); font-size: 11px; color: var(--text-muted);
+    text-decoration: none; letter-spacing: 0.5px;
+  }
+  .nav-links a:hover { color: var(--teal-400); }
+
+  /* LAYOUT */
+  .wrap { max-width: 780px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+
+  /* HERO */
+  .hero {
+    display: grid; grid-template-columns: 1fr auto;
+    align-items: end; gap: 1rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid var(--teal-400);
+  }
+  .name {
+    font-size: clamp(36px, 7vw, 56px);
+    font-weight: 800; letter-spacing: -2px;
+    line-height: 1; color: var(--text);
+  }
+  .hero-right { text-align: right; }
+  .title-badge {
+    display: inline-block;
+    font-family: var(--mono); font-size: 11px;
+    background: var(--teal-400); color: #fff;
+    padding: 5px 12px; border-radius: 4px;
+    letter-spacing: 0.5px; margin-bottom: 6px;
+  }
+  .location {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--gray-600);
+  }
+  .hero-meta {
+    display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 10px;
+  }
+  .hero-meta a {
+    font-family: var(--mono); font-size: 12px;
+    color: var(--teal-600); text-decoration: none;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .hero-meta a:hover { text-decoration: underline; }
+
+  /* SUMMARY */
+  .summary {
+    font-size: 15px; color: var(--text-muted);
+    line-height: 1.75; margin-bottom: 3rem; max-width: 640px;
+  }
+  .summary strong { color: var(--teal-600); font-weight: 700; }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--gray-600); text-transform: uppercase;
+    letter-spacing: 2.5px; margin-bottom: 1.25rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+  section { margin-bottom: 3rem; }
+
+  /* PROJECTS */
+  .projects { display: grid; gap: 14px; }
+  .proj-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.5rem;
+    transition: border-color 0.15s, transform 0.15s;
+    cursor: default;
+  }
+  .proj-card.linked { cursor: pointer; }
+  .proj-card.linked:hover { border-color: var(--teal-400); transform: translateY(-1px); }
+  .proj-top {
+    display: flex; justify-content: space-between;
+    align-items: flex-start; gap: 8px; margin-bottom: 10px;
+  }
+  .proj-name {
+    font-size: 15px; font-weight: 700; color: var(--text);
+    display: flex; align-items: center; gap: 7px;
+  }
+  .proj-icon {
+    width: 28px; height: 28px; border-radius: 6px;
+    background: var(--teal-50); color: var(--teal-600);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0;
+  }
+  .proj-year {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--gray-600); padding-top: 2px; white-space: nowrap;
+  }
+  .proj-desc {
+    font-size: 13px; color: var(--text-muted);
+    line-height: 1.65; margin-bottom: 12px;
+  }
+  .tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .tag {
+    font-family: var(--mono); font-size: 11px;
+    background: var(--teal-50); color: var(--teal-800);
+    padding: 3px 9px; border-radius: 4px;
+  }
+  .tag.gray {
+    background: var(--gray-50); color: var(--gray-600);
+  }
+
+  /* EXPERIENCE */
+  .exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 540px) { .exp-grid { grid-template-columns: 1fr; } }
+  .exp-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--teal-400);
+    border-radius: 0 10px 10px 0;
+    padding: 1.25rem;
+  }
+  .exp-role { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+  .exp-org { font-size: 13px; color: var(--teal-600); font-weight: 700; margin-bottom: 4px; }
+  .exp-period {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--gray-600); margin-bottom: 8px;
+  }
+  .exp-desc { font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+
+  /* SKILLS */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+  }
+  .skill-group {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px; padding: 1rem;
+  }
+  .skill-cat {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--teal-600); text-transform: uppercase;
+    letter-spacing: 1.5px; margin-bottom: 9px;
+  }
+  .skill-pills { display: flex; flex-wrap: wrap; gap: 5px; }
+  .skill-pill {
+    font-size: 11px;
+    background: var(--gray-50); color: var(--text-muted);
+    padding: 3px 8px; border-radius: 4px;
+  }
+
+  /* EDUCATION */
+  .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 540px) { .edu-grid { grid-template-columns: 1fr; } }
+  .edu-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.25rem;
+    position: relative; overflow: hidden;
+  }
+  .edu-card::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; width: 100%; height: 3px;
+    background: var(--teal-400);
+  }
+  .edu-school { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .edu-prog { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; line-height: 1.4; }
+  .edu-year { font-family: var(--mono); font-size: 11px; color: var(--gray-600); }
+
+  /* LANGUAGES */
+  .lang-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1.5rem; }
+  .lang-badge {
+    font-family: var(--mono); font-size: 12px;
+    padding: 6px 14px; border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface); color: var(--text-muted);
+  }
+  .lang-badge b { color: var(--text); }
+
+  /* CONTACT STRIP */
+  .contact-strip {
+    margin-top: 3rem; padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    display: flex; gap: 10px; flex-wrap: wrap;
+  }
+  .contact-strip a {
+    font-family: var(--mono); font-size: 12px;
+    color: var(--text-muted); text-decoration: none;
+    display: flex; align-items: center; gap: 6px;
+    padding: 7px 14px; border: 1px solid var(--border);
+    border-radius: 8px; background: var(--surface);
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .contact-strip a:hover { border-color: var(--teal-400); color: var(--teal-600); }
+  .contact-strip a svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    font-family: var(--mono); font-size: 11px;
+    color: var(--gray-600); padding: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero    { animation: fadeUp 0.5s ease both; }
+  .summary { animation: fadeUp 0.5s 0.1s ease both; }
+  section  { animation: fadeUp 0.5s 0.2s ease both; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="#">Farah Younes</a>
+  <div class="nav-links">
+    <a href="#projects">Projects</a>
+    <a href="#experience">Experience</a>
+    <a href="#skills">Skills</a>
+    <a href="#education">Education</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div>
+      <h1 class="name">Farah<br>Younes</h1>
+      <div class="hero-meta">
+        <a href="mailto:younesfarah03@gmail.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          younesfarah03@gmail.com
+        </a>
+        <a href="https://github.com/YOUNES-Farah" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          YOUNES-Farah
+        </a>
+        <a href="https://www.linkedin.com/in/farah-younes-2003f/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+        <a href="tel:+21692809230">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.07 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/></svg>
+          +216 92 80 92 30
+        </a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="title-badge">AI Engineering Student</div>
+      <div class="location">ENET'Com · Sfax, Tunisia</div>
+    </div>
+  </header>
+
+  <!-- SUMMARY -->
+  <p class="summary">
+    2nd-year Engineering student specializing in <strong>Artificial Intelligence</strong> — building production-grade systems from multi-agent RAG pipelines to real-time fraud detection and computer vision. Experience spans renewable energy, automotive, and fintech domains. Seeking a second-year internship where <strong>AI creates measurable business value</strong>.
+  </p>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-label">Projects</div>
+    <div class="projects">
+
+      <!-- Fraud Detection -->
+      <div class="proj-card linked" onclick="window.open('https://github.com/YOUNES-Farah/fraud-detection','_blank')">
+        <div class="proj-top">
+          <div class="proj-name">
+            <div class="proj-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            Real-Time E-Commerce Fraud Detection Platform
+          </div>
+          <div class="proj-year">2025–26</div>
+        </div>
+        <div class="proj-desc">
+          Graph Neural Network pipeline combining GraphSAGE + XGBoost on the IEEE-CIS Fraud Detection dataset. Ingests transactions via Kafka (PaySim), stores in ClickHouse, and exposes real-time predictions through a FastAPI endpoint. Full observability stack: Apache Superset dashboards, Prometheus metrics, Grafana alerting, Airflow orchestration — all running locally via Docker Compose.
+        </div>
+        <div class="tags">
+          <span class="tag">GNN · GraphSAGE</span>
+          <span class="tag">XGBoost</span>
+          <span class="tag">PyTorch Geometric</span>
+          <span class="tag">Kafka</span>
+          <span class="tag">ClickHouse</span>
+          <span class="tag">FastAPI</span>
+          <span class="tag">Airflow</span>
+          <span class="tag">Docker Compose</span>
+          <span class="tag gray">IEEE-CIS Dataset</span>
+        </div>
+      </div>
+
+      <!-- ResearchASS -->
+      <div class="proj-card linked" onclick="window.open('https://github.com/YOUNES-Farah/researchASS','_blank')">
+        <div class="proj-top">
+          <div class="proj-name">
+            <div class="proj-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            ResearchASS — Multi-Agent AI Research Assistant
+          </div>
+          <div class="proj-year">2025</div>
+        </div>
+        <div class="proj-desc">
+          Multi-agent research assistant using a 7-node LangGraph corrective/self-RAG architecture. Achieves 78% latency reduction through auto model selection. Features semantic caching, cross-encoder reranking, keyword-based routing, Tavily web search with fallback, and SSE streaming.
+        </div>
+        <div class="tags">
+          <span class="tag">LangGraph</span>
+          <span class="tag">LangChain</span>
+          <span class="tag">RAG</span>
+          <span class="tag">Groq · LLaMA 3.3</span>
+          <span class="tag">ChromaDB</span>
+          <span class="tag">FastAPI</span>
+          <span class="tag">LangSmith</span>
+          <span class="tag">HuggingFace</span>
+        </div>
+      </div>
+
+      <!-- CAN Log Analyzer -->
+      <div class="proj-card">
+        <div class="proj-top">
+          <div class="proj-name">
+            <div class="proj-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+            </div>
+            CAN Log Analyzer — Automotive Validation Tool
+          </div>
+          <div class="proj-year">2026</div>
+        </div>
+        <div class="proj-desc">
+          Desktop data pipeline built during internship at KPIT. Ingests raw CAN bus traces from automotive tests, applies structured signal decoding against an XML catalogue, and outputs automated pass/fail verdicts. Generates CSV/PDF reports replacing time-consuming manual log review.
+        </div>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">CAN Bus Protocol</span>
+          <span class="tag">PyQt6</span>
+          <span class="tag">Data Parsing</span>
+          <span class="tag gray">KPIT</span>
+        </div>
+      </div>
+
+      <!-- Smart Dust Monitoring -->
+      <div class="proj-card">
+        <div class="proj-top">
+          <div class="proj-name">
+            <div class="proj-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </div>
+            Smart Dust Monitoring — Solar PV Panels (PFA)
+          </div>
+          <div class="proj-year">2025–26</div>
+        </div>
+        <div class="proj-desc">
+          Fine-tuned VGG16 via Transfer Learning on 842 labeled images — 96% accuracy, 99% recall on clean panel detection. Full-stack deployment on Spring Boot + Angular with Docker, MinIO storage, real-time inference with confidence scoring, and automated maintenance alerts.
+        </div>
+        <div class="tags">
+          <span class="tag">VGG16 · Transfer Learning</span>
+          <span class="tag">PyTorch · Keras</span>
+          <span class="tag">Spring Boot</span>
+          <span class="tag">Angular</span>
+          <span class="tag">Docker</span>
+          <span class="tag">MinIO</span>
+          <span class="tag">MySQL</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-label">Experience</div>
+    <div class="exp-grid">
+      <div class="exp-card">
+        <div class="exp-role">IT Intern</div>
+        <div class="exp-org">TAV Airports Holding</div>
+        <div class="exp-period">Summer 2025 · Monastir, Tunisia</div>
+        <div class="exp-desc">Built "Smart Stock" — a web-based inventory management system replacing an Excel-based workflow for six operational departments at Monastir Habib Bourguiba Airport.</div>
+      </div>
+      <div class="exp-card">
+        <div class="exp-role">HR Manager</div>
+        <div class="exp-org">Enactus ENET'Com</div>
+        <div class="exp-period">Nov 2024 – Nov 2025</div>
+        <div class="exp-desc">Led recruitment and coordinated multidisciplinary teams. Contributed to a Computer Vision project that won <strong>Best Innovative Project</strong> at the Enactus Tunisia National Competition.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-label">Skills</div>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <div class="skill-cat">Machine Learning</div>
+        <div class="skill-pills">
+          <span class="skill-pill">RAG</span>
+          <span class="skill-pill">LLMs</span>
+          <span class="skill-pill">CNNs</span>
+          <span class="skill-pill">GNN</span>
+          <span class="skill-pill">Transfer Learning</span>
+          <span class="skill-pill">PyTorch</span>
+          <span class="skill-pill">Keras</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-cat">AI Tooling</div>
+        <div class="skill-pills">
+          <span class="skill-pill">LangGraph</span>
+          <span class="skill-pill">LangChain</span>
+          <span class="skill-pill">Groq</span>
+          <span class="skill-pill">ChromaDB</span>
+          <span class="skill-pill">HuggingFace</span>
+          <span class="skill-pill">OpenCV</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-cat">Backend &amp; Infra</div>
+        <div class="skill-pills">
+          <span class="skill-pill">FastAPI</span>
+          <span class="skill-pill">Spring Boot</span>
+          <span class="skill-pill">Docker</span>
+          <span class="skill-pill">Kafka</span>
+          <span class="skill-pill">PostgreSQL</span>
+          <span class="skill-pill">MinIO</span>
+          <span class="skill-pill">Git</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-cat">Data &amp; Analytics</div>
+        <div class="skill-pills">
+          <span class="skill-pill">ClickHouse</span>
+          <span class="skill-pill">Airflow</span>
+          <span class="skill-pill">Grafana</span>
+          <span class="skill-pill">Power BI</span>
+          <span class="skill-pill">Superset</span>
+          <span class="skill-pill">Prometheus</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-cat">Frontend &amp; Tools</div>
+        <div class="skill-pills">
+          <span class="skill-pill">Angular</span>
+          <span class="skill-pill">Streamlit</span>
+          <span class="skill-pill">PyQt6</span>
+          <span class="skill-pill">LabVIEW</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-cat">Languages</div>
+        <div class="skill-pills">
+          <span class="skill-pill">Python</span>
+          <span class="skill-pill">Java</span>
+          <span class="skill-pill">C</span>
+          <span class="skill-pill">SQL</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="section-label">Education</div>
+    <div class="edu-grid">
+      <div class="edu-card">
+        <div class="edu-school">ENET'Com — Sfax</div>
+        <div class="edu-prog">Engineering Degree · Industrial Computing (AI specialization)</div>
+        <div class="edu-year">2024 – present</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-school">IPEIM — Monastir</div>
+        <div class="edu-prog">Preparatory Program · Physics &amp; Chemistry</div>
+        <div class="edu-year">2022 – 2024</div>
+      </div>
+    </div>
+
+    <div class="lang-row">
+      <div class="lang-badge"><b>AR</b> · Native</div>
+      <div class="lang-badge"><b>EN</b> · Professional</div>
+      <div class="lang-badge"><b>FR</b> · Professional</div>
+      <div class="lang-badge"><b>DE</b> · Beginner</div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <div class="contact-strip">
+    <a href="mailto:younesfarah03@gmail.com">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+      younesfarah03@gmail.com
+    </a>
+    <a href="https://github.com/YOUNES-Farah" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      GitHub
+    </a>
+    <a href="https://www.linkedin.com/in/farah-younes-2003f/" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      LinkedIn
+    </a>
+    <a href="tel:+21692809230">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.07 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/></svg>
+      +216 92 80 92 30
+    </a>
+  </div>
+
+</div>
+
+<footer>
+  Farah Younes · AI Engineering Student · ENET'Com 2026
+</footer>
+
+</body>
+</html>
